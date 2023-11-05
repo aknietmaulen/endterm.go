@@ -240,7 +240,7 @@ func (app *RestaurantApp) createCreditCardPayment() (PaymentMethod, error) {
             break
         }
     }
-	
+
 	creditCard := NewCreditCard(cardNumber, cvv, amount)
 	return creditCard, nil
 }
@@ -253,14 +253,27 @@ func (app *RestaurantApp) createPayPalPayment() (PaymentMethod, error) {
 	var email string
 	var amount int
 
-	fmt.Println("Enter email:")
-	fmt.Scan(&email)
-	fmt.Println("Amount of money in PayPal:")
-	_, err := fmt.Scan(&amount)
-	if err != nil || amount < 0 {
-		return nil, fmt.Errorf("invalid amount: %v", err)
-	}
+    for {
+        fmt.Println("Enter email:")
+        fmt.Scan(&email)
+        if !isValidEmail(email) {
+            fmt.Println("Invalid email. Please try again.")
+            continue
+        } else {
+            break
+        }
+    }
 
+    for {
+        fmt.Println("Amount of money in PayPal:")
+        _, err := fmt.Scan(&amount)
+        if err != nil || amount < 0 {
+            fmt.Println("Invalid amount:", err)
+        } else {
+            break
+        }
+    }
+	
 	payPal := NewPayPal(email, amount)
 	return payPal, nil
 }
