@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"regexp"
 )
 
 type RestaurantApp struct {
@@ -47,19 +48,86 @@ func (app *RestaurantApp) Run() {
 		}
 	}
 }
+func isUpper(s string) bool {
+    if len(s) == 0 {
+        return false
+    }
+    return 'A' <= s[0] && s[0] <= 'Z'
+}
+func isAlphabetic(char rune) bool {
+    return ('A' <= char && char <= 'Z') || ('a' <= char && char <= 'z')
+}
+
+
+func isValidName(name string) bool {
+    if len(name) < 3 || !isUpper(name) {
+        return false
+    }
+
+    for _, char := range name {
+        if !isAlphabetic(char) {
+            return false
+        }
+    }
+
+    return true
+}
+
+func isValidSurname (surname string) bool {
+    if len(surname) < 3 || !isUpper(surname) {
+        return false
+    }
+
+    for _, char := range surname {
+        if !isAlphabetic(char) {
+            return false
+        }
+    }
+
+    return true
+}
+
+func isValidEmail(email string) bool {
+	emailPattern := `^[a-zA-Z0-9!#$%&'*+\-/=?^_{}|~]+(\.[a-zA-Z0-9!#$%&'*+\-/=?^_{}|~]+)*@([a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$`
+    return regexp.MustCompile(emailPattern).MatchString(email)
+}	
+
+
 
 func (app *RestaurantApp) createProfile() *UserProfile {
-	var name, surname, email string
-	fmt.Println("Enter your name:")
-	fmt.Scan(&name)
-	fmt.Println("Enter your surname:")
-	fmt.Scan(&surname)
-	fmt.Println("Enter your email:")
-	fmt.Scan(&email)
-
-	userProfile := NewUserProfile(name, surname, email)
-	return userProfile
+    var name, surname, email string
+    for {
+        fmt.Println("Enter your name:")
+        fmt.Scan(&name)
+        if !isValidName(name) {
+            fmt.Println("Invalid name. Please try again.")
+        } else {
+            break
+        }
+    }
+    for {
+        fmt.Println("Enter your surname:")
+        fmt.Scan(&surname)
+        if !isValidSurname(surname) {
+            fmt.Println("Invalid surname. Please try again.")
+        } else {
+            break
+        }
+    }
+    for {
+        fmt.Println("Enter your email:")
+        fmt.Scan(&email)
+        if !isValidEmail(email) {
+            fmt.Println("Invalid email. Please try again.")
+        } else {
+            break
+        }
+    }
+    userProfile := NewUserProfile(name, surname, email)
+    app.userProfile = userProfile
+    return userProfile
 }
+
 
 func (app *RestaurantApp) reservationMenu() {
 	for {
@@ -157,13 +225,13 @@ func (app *RestaurantApp) selectPaymentMethod() (PaymentMethod, error) {
 	case 2:
 		return app.createPayPalPayment()
 	default:
-		return nil, fmt.Errorf("invalid payment method choice.")
+		return nil, fmt.Errorf("invalid payment method choice")
 	}
 }
 
 func (app *RestaurantApp) createCreditCardPayment() (PaymentMethod, error) {
 	if app.userProfile == nil {
-		return nil, fmt.Errorf("you need to create a profile first.")
+		return nil, fmt.Errorf("you need to create a profile first")
 	}
 
 	var cardNumber, cvv string
@@ -185,7 +253,7 @@ func (app *RestaurantApp) createCreditCardPayment() (PaymentMethod, error) {
 
 func (app *RestaurantApp) createPayPalPayment() (PaymentMethod, error) {
 	if app.userProfile == nil {
-		return nil, fmt.Errorf("you need to create a profile first.")
+		return nil, fmt.Errorf("you need to create a profile first")
 	}
 
 	var email string
@@ -215,6 +283,7 @@ func (app *RestaurantApp) createPayPalPayment() (PaymentMethod, error) {
         fmt.Println("Invalid choice:", err)
         return
     }
+
 
     if choice == 1 {
         app.paymentMethod = NewCreditCard("1234-5678-9876-5432", "123", 1000)
