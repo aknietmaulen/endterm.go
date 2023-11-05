@@ -210,16 +210,37 @@ func (app *RestaurantApp) createCreditCardPayment() (PaymentMethod, error) {
 	var cardNumber, cvv string
 	var amount int
 
-	fmt.Println("Enter card number:")
-	fmt.Scan(&cardNumber)
-	fmt.Println("Enter CVV:")
-	fmt.Scan(&cvv)
-	fmt.Println("Amount of money in card:")
-	_, err := fmt.Scan(&amount)
-	if err != nil || amount < 0 {
-		return nil, fmt.Errorf("invalid amount: %v", err)
-	}
+    for {
+        fmt.Println("Enter card number:")
+        fmt.Scan(&cardNumber)
+        if len(cardNumber) != 16 {
+            fmt.Println("Card number should consist of 16 digits. Please try again.")
+            continue
+        } else {
+            break
+        }
+    }
 
+	for {
+        fmt.Println("Enter CVV:")
+        fmt.Scan(&cvv)
+        if len(cvv) != 3 {
+            fmt.Println("CVV should consist of 3 digits. Please try again.")
+            continue
+        } else {
+            break
+        }
+    }
+	for {
+        fmt.Println("Amount of money in card:")
+        _, err := fmt.Scan(&amount)
+        if err != nil || amount < 0 {
+            fmt.Println("Invalid amount:", err)
+        } else {
+            break
+        }
+    }
+	
 	creditCard := NewCreditCard(cardNumber, cvv, amount)
 	return creditCard, nil
 }
