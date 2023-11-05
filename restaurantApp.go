@@ -119,16 +119,35 @@ func (app *RestaurantApp) makeReservation() {
 	var date, time string
 	var partySize int
 
-	fmt.Println("Choose date (dd.mm.yyyy):")
-	fmt.Scan(&date)
-	fmt.Println("Choose time:")
-	fmt.Scan(&time)
-	fmt.Println("Party size:")
-	_, err := fmt.Scan(&partySize)
-	if err != nil || partySize <= 0 {
-		fmt.Println("Invalid party size:", err)
-		return
-	}
+    for {
+        fmt.Println("Choose date (dd.mm.yyyy):")
+        fmt.Scan(&date)
+        if !isValidDate(date) {
+            fmt.Println("Invalid date format. Please try again.")
+        } else {
+            break
+        }
+    }
+
+    for {
+        fmt.Println("Choose time:")
+        fmt.Scan(&time)
+        if !isValidTime(time) {
+            fmt.Println("Invalid time format. Please try again.")
+        } else {
+            break
+        }
+    }
+
+    for {
+        fmt.Println("Party size:")
+        _, err := fmt.Scan(&partySize)
+        if err != nil || partySize <= 0 {
+            fmt.Println("Invalid party size:", err)
+        } else {
+            break
+        }
+    }
 
 	reservationPrice := partySize * 100
 	fmt.Printf("The price for the reservation is $%d.\n", reservationPrice)
@@ -141,7 +160,7 @@ func (app *RestaurantApp) makeReservation() {
 	fmt.Println("Do you want to make a reservation?")
 	fmt.Println("1. Yes    2. No")
 	var choice int
-	_, err = fmt.Scan(&choice)
+	_, err := fmt.Scan(&choice)
 	if err != nil {
 		fmt.Println("Invalid choice:", err)
 		return
