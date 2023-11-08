@@ -49,8 +49,12 @@ func isValidEmail(email string) bool {
 }
 
 func isValidDate(date string) bool {
-	_, err := time.Parse("02.01.2006", date)
-	return err == nil
+    t, err := time.Parse("02.01.2006", date)
+    if err != nil {
+        return false
+    }
+    currentDate := time.Now()
+    return t.After(currentDate) || t.Equal(currentDate)
 }
 
 func isValidTime(timeStr string) bool {

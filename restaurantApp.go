@@ -3,12 +3,24 @@ package main
 import (
 	"fmt"
 	"os"
+	"sync"
 )
 
 type RestaurantApp struct {
 	restaurant    *Restaurant
 	userProfile   *UserProfile
 	paymentMethod PaymentMethod
+}
+
+var instance *RestaurantApp
+var once sync.Once
+
+
+func getInstance() *RestaurantApp {
+    once.Do(func() {
+        instance = NewRestaurantApp()
+    })
+    return instance
 }
 
 func NewRestaurantApp() *RestaurantApp {
@@ -19,6 +31,7 @@ func NewRestaurantApp() *RestaurantApp {
 		paymentMethod: nil,
 	}
 }
+
 
 func (app *RestaurantApp) Run() {
 	fmt.Println("Hello! Welcome to our restaurant '", app.restaurant.Name, "'")
