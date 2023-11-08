@@ -49,39 +49,38 @@ func (app *RestaurantApp) Run() {
 }
 
 func (app *RestaurantApp) createProfile() *UserProfile {
-    var name, surname, email string
-    for {
-        fmt.Println("Enter your name:")
-        fmt.Scan(&name)
-        if !isValidName(name) {
-            fmt.Println("Invalid name. Please try again.")
-        } else {
-            break
-        }
-    }
-    for {
-        fmt.Println("Enter your surname:")
-        fmt.Scan(&surname)
-        if !isValidSurname(surname) {
-            fmt.Println("Invalid surname. Please try again.")
-        } else {
-            break
-        }
-    }
-    for {
-        fmt.Println("Enter your email:")
-        fmt.Scan(&email)
-        if !isValidEmail(email) {
-            fmt.Println("Invalid email. Please try again.")
-        } else {
-            break
-        }
-    }
-    userProfile := NewUserProfile(name, surname, email)
-    app.userProfile = userProfile
-    return userProfile
+	var name, surname, email string
+	for {
+		fmt.Println("Enter your name:")
+		fmt.Scan(&name)
+		if !isValidName(name) {
+			fmt.Println("Invalid name. Please try again.")
+		} else {
+			break
+		}
+	}
+	for {
+		fmt.Println("Enter your surname:")
+		fmt.Scan(&surname)
+		if !isValidSurname(surname) {
+			fmt.Println("Invalid surname. Please try again.")
+		} else {
+			break
+		}
+	}
+	for {
+		fmt.Println("Enter your email:")
+		fmt.Scan(&email)
+		if !isValidEmail(email) {
+			fmt.Println("Invalid email. Please try again.")
+		} else {
+			break
+		}
+	}
+	userProfile := NewUserProfile(name, surname, email)
+	app.userProfile = userProfile
+	return userProfile
 }
-
 
 func (app *RestaurantApp) reservationMenu() {
 	for {
@@ -119,35 +118,35 @@ func (app *RestaurantApp) makeReservation() {
 	var date, time string
 	var partySize int
 
-    for {
-        fmt.Println("Choose date (dd.mm.yyyy):")
-        fmt.Scan(&date)
-        if !isValidDate(date) {
-            fmt.Println("Invalid date format. Please try again.")
-        } else {
-            break
-        }
-    }
+	for {
+		fmt.Println("Choose date (dd.mm.yyyy):")
+		fmt.Scan(&date)
+		if !isValidDate(date) {
+			fmt.Println("Invalid date format. Please try again.")
+		} else {
+			break
+		}
+	}
 
-    for {
-        fmt.Println("Choose time:")
-        fmt.Scan(&time)
-        if !isValidTime(time) {
-            fmt.Println("Invalid time format. Please try again.")
-        } else {
-            break
-        }
-    }
+	for {
+		fmt.Println("Choose time:")
+		fmt.Scan(&time)
+		if !isValidTime(time) {
+			fmt.Println("Invalid time format. Please try again.")
+		} else {
+			break
+		}
+	}
 
-    for {
-        fmt.Println("Party size:")
-        _, err := fmt.Scan(&partySize)
-        if err != nil || partySize <= 0 {
-            fmt.Println("Invalid party size:", err)
-        } else {
-            break
-        }
-    }
+	for {
+		fmt.Println("Party size:")
+		_, err := fmt.Scan(&partySize)
+		if err != nil || partySize <= 0 {
+			fmt.Println("Invalid party size:", err)
+		} else {
+			break
+		}
+	}
 
 	reservationPrice := partySize * 100
 	fmt.Printf("The price for the reservation is $%d.\n", reservationPrice)
@@ -210,36 +209,36 @@ func (app *RestaurantApp) createCreditCardPayment() (PaymentMethod, error) {
 	var cardNumber, cvv string
 	var amount int
 
-    for {
-        fmt.Println("Enter card number:")
-        fmt.Scan(&cardNumber)
-        if len(cardNumber) != 16 {
-            fmt.Println("Card number should consist of 16 digits. Please try again.")
-            continue
-        } else {
-            break
-        }
-    }
+	for {
+		fmt.Println("Enter card number:")
+		fmt.Scan(&cardNumber)
+		if len(cardNumber) != 16 {
+			fmt.Println("Card number should consist of 16 digits. Please try again.")
+			continue
+		} else {
+			break
+		}
+	}
 
 	for {
-        fmt.Println("Enter CVV:")
-        fmt.Scan(&cvv)
-        if len(cvv) != 3 {
-            fmt.Println("CVV should consist of 3 digits. Please try again.")
-            continue
-        } else {
-            break
-        }
-    }
+		fmt.Println("Enter CVV:")
+		fmt.Scan(&cvv)
+		if len(cvv) != 3 {
+			fmt.Println("CVV should consist of 3 digits. Please try again.")
+			continue
+		} else {
+			break
+		}
+	}
 	for {
-        fmt.Println("Amount of money in card:")
-        _, err := fmt.Scan(&amount)
-        if err != nil || amount < 0 {
-            fmt.Println("Invalid amount:", err)
-        } else {
-            break
-        }
-    }
+		fmt.Println("Amount of money in card:")
+		_, err := fmt.Scan(&amount)
+		if err != nil || amount < 0 {
+			fmt.Println("Invalid amount:", err)
+		} else {
+			break
+		}
+	}
 
 	creditCard := NewCreditCard(cardNumber, cvv, amount)
 	return creditCard, nil
@@ -253,61 +252,27 @@ func (app *RestaurantApp) createPayPalPayment() (PaymentMethod, error) {
 	var email string
 	var amount int
 
-    for {
-        fmt.Println("Enter email:")
-        fmt.Scan(&email)
-        if !isValidEmail(email) {
-            fmt.Println("Invalid email. Please try again.")
-            continue
-        } else {
-            break
-        }
-    }
+	for {
+		fmt.Println("Enter email:")
+		fmt.Scan(&email)
+		if !isValidEmail(email) {
+			fmt.Println("Invalid email. Please try again.")
+			continue
+		} else {
+			break
+		}
+	}
 
-    for {
-        fmt.Println("Amount of money in PayPal:")
-        _, err := fmt.Scan(&amount)
-        if err != nil || amount < 0 {
-            fmt.Println("Invalid amount:", err)
-        } else {
-            break
-        }
-    }
-	
+	for {
+		fmt.Println("Amount of money in PayPal:")
+		_, err := fmt.Scan(&amount)
+		if err != nil || amount < 0 {
+			fmt.Println("Invalid amount:", err)
+		} else {
+			break
+		}
+	}
+
 	payPal := NewPayPal(email, amount)
 	return payPal, nil
 }
-
-/*
-    if choice != 1 {
-        return
-    }
-
-    fmt.Println("Choose payment method:")
-    fmt.Println("1. Card    2. PayPal")
-    _, err = fmt.Scan(&choice)
-    if err != nil {
-        fmt.Println("Invalid choice:", err)
-        return
-    }
-
-
-    if choice == 1 {
-        app.paymentMethod = NewCreditCard("1234-5678-9876-5432", "123", 1000)
-    } else if choice == 2 {
-        app.paymentMethod = NewPayPal("example@example.com", 1500)
-    }
-
-    if app.paymentMethod == nil {
-        fmt.Println("Invalid payment method choice.")
-        return
-    }
-
-    if app.restaurant.BookTable(date, time, partySize, app.userProfile, app.paymentMethod) {
-        fmt.Println("Congrats! Payment was successful.")
-    } else {
-        fmt.Println("Sorry, not enough money.")
-    }
-}
-
-*/
