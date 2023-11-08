@@ -19,7 +19,7 @@ type Observer interface {
 	Update()
 }
 
-func NewRestaurant(name, manager string, availableSeats, subscribers int) *Restaurant {
+func NewRestaurant(name, manager string, availableSeats int) *Restaurant {
 	restaurant := &Restaurant{
 		Name:           name,
 		Manager:        manager,

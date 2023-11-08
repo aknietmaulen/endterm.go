@@ -24,7 +24,7 @@ func getInstance() *RestaurantApp {
 }
 
 func NewRestaurantApp() *RestaurantApp {
-	restaurant := NewRestaurant("GOLANG", "Jackson Wang", 100, 4567)
+	restaurant := NewRestaurant("GOLANG", "Jackson Wang", 100)
 	return &RestaurantApp{
 		restaurant:    restaurant,
 		userProfile:   nil,
